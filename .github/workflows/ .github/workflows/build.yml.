@@ -1,0 +1,37 @@
+name: Build WMenu
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Android32
+            target: Android32
+          - name: Android64
+            target: Android64
+
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download source
+        uses: actions/checkout@v4
+
+      - name: Build Geode mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          target: ${{ matrix.target }}
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: WMenu-${{ matrix.target }}
+          path: "**/*.geode"
+          if-no-files-found: error
