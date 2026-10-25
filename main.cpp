@@ -75,17 +75,21 @@ class $modify(WMainMenu, MenuLayer) {
         }
         btn->setID("w-menu-button"_spr);
 
-        auto win = CCDirector::get()->getWinSize();
-        auto menu = CCMenu::create();
+        // Position the menu itself at the target location. This avoids the
+        // common mobile issue where the button's child coordinates are offset.
+        auto size = this->getContentSize();
+        auto menu = CCMenu::createWithItem(btn);
         if (!menu) return true;
         menu->setID("w-menu-container"_spr);
-        menu->setPosition({0.f, 0.f});
-        menu->setZOrder(9999);
-        btn->setPosition({win.width - 62.f, win.height - 48.f});
-        menu->addChild(btn);
-        this->addChild(menu, 9999);
+        menu->setPosition({size.width - 78.f, size.height - 54.f});
+        menu->setZOrder(999999);
+        menu->setTouchEnabled(true);
+        btn->setPosition({0.f, 0.f});
+        this->addChild(menu, 999999);
+        menu->setVisible(true);
+        btn->setVisible(true);
 
-        log::info("WMenu: main-menu button added at {}, {}", win.width - 62.f, win.height - 48.f);
+        log::info("WMenu: main-menu button attached at {}, {}", size.width - 78.f, size.height - 54.f);
         return true;
     }
 
@@ -109,17 +113,19 @@ class $modify(WPause, PauseLayer) {
         if (!btn) return;
         btn->setID("w-menu-button"_spr);
 
-        auto win = CCDirector::get()->getWinSize();
-        auto menu = CCMenu::create();
+        auto size = this->getContentSize();
+        auto menu = CCMenu::createWithItem(btn);
         if (!menu) return;
         menu->setID("w-menu-container"_spr);
-        menu->setPosition({0.f, 0.f});
-        menu->setZOrder(9999);
-        btn->setPosition({win.width - 62.f, win.height - 48.f});
-        menu->addChild(btn);
-        this->addChild(menu, 9999);
+        menu->setPosition({size.width - 78.f, size.height - 54.f});
+        menu->setZOrder(999999);
+        menu->setTouchEnabled(true);
+        btn->setPosition({0.f, 0.f});
+        this->addChild(menu, 999999);
+        menu->setVisible(true);
+        btn->setVisible(true);
 
-        log::info("WMenu: pause-menu button added");
+        log::info("WMenu: pause-menu button attached at {}, {}", size.width - 78.f, size.height - 54.f);
     }
 
     void onW(CCObject*) { openWMenu(); }
